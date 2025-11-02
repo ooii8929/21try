@@ -88,6 +88,16 @@ flutter build ios --release
 - **Minimum iOS Version**: 12.0
 - **Supported Orientations**: Portrait, Landscape Left, Landscape Right
 
+## Note on Assets
+
+The app icon placeholders are configured but not included. To add app icons:
+
+1. Generate icons using a tool like [App Icon Generator](https://appicon.co/)
+2. Place the generated icons in `ios/Runner/Assets.xcassets/AppIcon.appiconset/`
+3. Or let Flutter generate them when running: `flutter run`
+
+The launch screen image reference can be replaced with a solid color or removed from the storyboard if not needed.
+
 ## License
 
 This project is a simple demonstration application.
