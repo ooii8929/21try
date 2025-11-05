@@ -1,13 +1,21 @@
+<<<<<<< HEAD
 import Flutter
 import UIKit
 import Photos
 
 @main
+=======
+import UIKit
+import Flutter
+
+@UIApplicationMain
+>>>>>>> c0d9a334abfd904083afacc6040e93cb99c54e8f
 @objc class AppDelegate: FlutterAppDelegate {
   override func application(
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
+<<<<<<< HEAD
     let controller = window?.rootViewController as! FlutterViewController
     let cameraChannel = FlutterMethodChannel(
       name: "com.example.twentyonetry/camera",
@@ -44,4 +52,9 @@ import Photos
       }
     }
   }
+=======
+    GeneratedPluginRegistrant.register(with: self)
+    return super.application(application, didFinishLaunchingWithOptions: launchOptions)
+  }
+>>>>>>> c0d9a334abfd904083afacc6040e93cb99c54e8f
 }
