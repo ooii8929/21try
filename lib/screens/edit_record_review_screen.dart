@@ -157,7 +157,7 @@ class _EditRecordReviewScreenState extends State<EditRecordReviewScreen> {
               playedColor: AppColors.primary,
               handleColor: AppColors.primary,
               backgroundColor: AppColors.cardBackground,
-              bufferedColor: AppColors.textSecondary.withOpacity(0.3),
+              bufferedColor: AppColors.textSecondary.withValues(alpha: 0.3),
             ),
             placeholder: Container(
               color: AppColors.cardBackground,

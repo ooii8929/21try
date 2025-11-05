@@ -75,7 +75,7 @@ class _RecordScreenState extends State<RecordScreen> {
             // 顯示儲存中的覆蓋層
             if (_isSaving)
               Container(
-                color: Colors.black.withOpacity(0.7),
+                color: Colors.black.withValues(alpha: 0.7),
                 child: const Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -110,7 +110,7 @@ class _RecordScreenState extends State<RecordScreen> {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [
-            Colors.black.withOpacity(0.7),
+            Colors.black.withValues(alpha: 0.7),
             Colors.transparent,
           ],
         ),
@@ -218,7 +218,7 @@ class _RecordScreenState extends State<RecordScreen> {
                   child: CircularProgressIndicator(
                     value: recordingSeconds / 60,
                     strokeWidth: 3,
-                    backgroundColor: Colors.grey.withOpacity(0.3),
+                    backgroundColor: Colors.grey.withValues(alpha: 0.3),
                     valueColor: const AlwaysStoppedAnimation<Color>(
                       Color(0xFF00D9FF),
                     ),
@@ -342,7 +342,7 @@ class _RecordScreenState extends State<RecordScreen> {
         width: 40,
         height: 40,
         decoration: BoxDecoration(
-          color: Colors.black.withOpacity(_isSaving ? 0.2 : 0.4),
+          color: Colors.black.withValues(alpha: _isSaving ? 0.2 : 0.4),
           borderRadius: BorderRadius.circular(20),
         ),
         child: Icon(
@@ -435,7 +435,7 @@ class _RecordScreenState extends State<RecordScreen> {
         width: 64,
         height: 64,
         decoration: BoxDecoration(
-          color: Colors.black.withOpacity(_isSaving ? 0.2 : 0.4),
+          color: Colors.black.withValues(alpha: _isSaving ? 0.2 : 0.4),
           borderRadius: BorderRadius.circular(32),
         ),
         child: Icon(

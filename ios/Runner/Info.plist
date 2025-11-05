@@ -5,11 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-<<<<<<< HEAD
 	<string> 21try</string>
-=======
-	<string>Simple Flutter App</string>
->>>>>>> c0d9a334abfd904083afacc6040e93cb99c54e8f
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -17,11 +13,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-<<<<<<< HEAD
 	<string>_21try</string>
-=======
-	<string>simple_flutter_app</string>
->>>>>>> c0d9a334abfd904083afacc6040e93cb99c54e8f
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -49,16 +41,10 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-<<<<<<< HEAD
-=======
-	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<false/>
->>>>>>> c0d9a334abfd904083afacc6040e93cb99c54e8f
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
-<<<<<<< HEAD
 	<key>NSCameraUsageDescription</key>
 	<string>This app needs camera access to take photos and record videos.</string>
 	<key>NSMicrophoneUsageDescription</key>
@@ -67,7 +53,5 @@
 	<string>This app needs access to your photo library to save photos.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>This app needs permission to save photos to your library.</string>
-=======
->>>>>>> c0d9a334abfd904083afacc6040e93cb99c54e8f
 </dict>
 </plist>
