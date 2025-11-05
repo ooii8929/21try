@@ -1,0 +1,99 @@
+# Miscellaneous
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.build/
+.buildlog/
+.history
+.svn/
+.swiftpm/
+migrate_working_dir/
+
+# IntelliJ related
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# The .vscode folder contains launch configuration and tasks you configure in
+# VS Code which you may wish to be included in version control, so this line
+# is commented out by default.
+#.vscode/
+
+# Flutter/Dart/Pub related
+**/doc/api/
+**/ios/Flutter/.last_build_id
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+/build/
+
+# Symbolication related
+app.*.symbols
+
+# Obfuscation related
+app.*.map.json
+
+# Android Studio will place build artifacts here
+/android/app/debug
+/android/app/profile
+/android/app/release
+
+# iOS specific - privacy protection
+ios/Runner.xcworkspace/xcuserdata/
+ios/Runner.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
+ios/Pods/
+ios/.symlinks/
+**/ios/Flutter/.last_build_id
+
+# Local configuration files - contains sensitive paths
+android/local.properties
+android/key.properties
+
+# Additional build artifacts
+**/build/
+.flutter-plugins
+.flutter-plugins-dependencies
+
+# IDE files
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# macOS specific
+.DS_Store
+
+# Temporary files
+*.tmp
+*.temp
+
+# Exclude other Desktop folders and files (outside this project)
+../../*
+!../../21try/
+../../Desktop/
+../../Experience/
+../../Engineer/
+../../English/
+../../KK Stream/
+../../Lecturer/
+../../business/
+../../gcp-wordpress/
+../../resource/
+../../tmp/
+../../tmp2/
+../../$RECYCLE.BIN/
+../../Thumbs.db
+../../desktop.ini
+../../*.csv
+../../*.mov
+../../*.png
+../../*.zip
+../../*.pptx
+../../*.docx
+../../~$*
