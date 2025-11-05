@@ -12,6 +12,9 @@
 .swiftpm/
 migrate_working_dir/
 
+# CodeQL
+_codeql_detected_source_root
+
 # IntelliJ related
 *.iml
 *.ipr
