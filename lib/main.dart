@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'screens/home_screen.dart';
+import 'screens/onboarding_screen.dart';
 import 'utils/app_colors.dart';
 import 'services/isar_service.dart';
 
@@ -19,11 +21,18 @@ void main() async {
   // Initialize Isar
   await IsarService.initialize();
 
-  runApp(const TwentyOneTryApp());
+  // Check if onboarding has been completed
+  final prefs = await SharedPreferences.getInstance();
+  final hasSeenOnboarding = prefs.getBool('hasSeenOnboarding') ?? false;
+
+  runApp(TwentyOneTryApp(showOnboarding: !hasSeenOnboarding));
 }
 
 class TwentyOneTryApp extends StatelessWidget {
-  const TwentyOneTryApp({Key? key}) : super(key: key);
+  final bool showOnboarding;
+
+  const TwentyOneTryApp({Key? key, required this.showOnboarding})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +46,7 @@ class TwentyOneTryApp extends StatelessWidget {
         primaryColor: AppColors.primary,
       ),
       navigatorObservers: [routeObserver],
-      home: const HomeScreen(),
+      home: showOnboarding ? const OnboardingScreen() : const HomeScreen(),
     );
   }
 }

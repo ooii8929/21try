@@ -33,6 +33,7 @@ flutter:
   uses-material-design: true
 
   assets:
+    - assets/bear/intro/
     - assets/bear/maintain/
     - assets/bear/distance/d5/
     - assets/bear/distance/d4/
