@@ -40,6 +40,7 @@ flutter:
     - assets/bear/distance/d2/
     - assets/bear/distance/d1/
     - assets/bear/distance/d0/
+    - assets/bear/progress/
 
   fonts:
     - family: Manrope

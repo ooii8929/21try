@@ -195,7 +195,7 @@ class _GoalDetailScreenState extends State<GoalDetailScreen> with RouteAware {
   }
 
   Widget _buildProgressSection() {
-    final progress = records.length / 21.0; // 假設總共 21 次嘗試
+    final progress = records.length / 21.0;
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -206,19 +206,25 @@ class _GoalDetailScreenState extends State<GoalDetailScreen> with RouteAware {
           _buildBearDistanceCard(),
           const SizedBox(height: 16),
           
-          // Original progress
+          // Progress title
+          const Text(
+            'Almost there!',
+            style: TextStyle(
+              color: AppColors.textPrimary,
+              fontSize: 16,
+              fontWeight: FontWeight.w400,
+              height: 1.5,
+            ),
+          ),
+          const SizedBox(height: 12),
+          // Progress bar with counter on the right
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Text(
-                'Almost there!',
-                style: TextStyle(
-                  color: AppColors.textPrimary,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400,
-                  height: 1.5,
-                ),
+              Expanded(
+                child: _buildAnimatedProgressBar(progress),
               ),
+              const SizedBox(width: 12),
               Text(
                 '${records.length}/21',
                 style: const TextStyle(
@@ -230,19 +236,115 @@ class _GoalDetailScreenState extends State<GoalDetailScreen> with RouteAware {
               ),
             ],
           ),
-          const SizedBox(height: 12),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(4),
-            child: LinearProgressIndicator(
-              value: progress,
-              minHeight: 8,
-              backgroundColor: AppColors.progressBackground,
-              valueColor:
-                  const AlwaysStoppedAnimation<Color>(AppColors.primary),
-            ),
-          ),
         ],
       ),
+    );
+  }
+
+  Widget _buildAnimatedProgressBar(double progress) {
+    // 人的位置：只根據完成度移動（0 到 21 的進度）
+    final personProgress = progress; // 0.0 到 1.0
+    
+    // 熊的位置：一開始落後 5 個進度單位
+    // distance = 5 時，熊在 -5 個進度單位（人的位置 - 5/21）
+    // distance = 0 時，熊追上人了
+    final progressPerUnit = 1.0 / 21.0; // 每個進度單位的比例
+    final bearLagUnits = _currentDistance.toDouble(); // 熊落後的單位數
+    final bearProgress = personProgress - (bearLagUnits * progressPerUnit);
+    
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final screenWidth = constraints.maxWidth;
+        // 進度條寬度為螢幕寬度的 80%，留出空間讓熊顯示
+        final trackWidth = screenWidth * 0.8;
+        final trackOffset = screenWidth * 0.1; // 左側留 10% 空間
+        final characterSize = 40.0;
+        
+        // 計算實際像素位置（相對於進度條）
+        final maxPosition = trackWidth - characterSize;
+        final personLeft = trackOffset + (personProgress * maxPosition).clamp(0.0, maxPosition);
+        final bearLeft = trackOffset + (bearProgress * maxPosition); // 允許負數
+        
+        return Column(
+          children: [
+            // 角色層
+            SizedBox(
+              height: characterSize + 8,
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  // 熊
+                  AnimatedPositioned(
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.easeInOut,
+                    left: bearLeft,
+                    bottom: 0,
+                    child: Image.asset(
+                      'assets/bear/progress/bear.png',
+                      width: characterSize,
+                      height: characterSize,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                  // 人
+                  AnimatedPositioned(
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.easeInOut,
+                    left: personLeft,
+                    bottom: 0,
+                    child: Image.asset(
+                      'assets/bear/progress/man.png',
+                      width: characterSize,
+                      height: characterSize,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 4),
+            // 進度條（帶格線）
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: trackOffset),
+              child: Stack(
+                children: [
+                  // 背景條
+                  Container(
+                    height: 8,
+                    decoration: BoxDecoration(
+                      color: AppColors.progressBackground,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                  ),
+                  // 完成進度（綠色）
+                  FractionallySizedBox(
+                    widthFactor: progress,
+                    child: Container(
+                      height: 8,
+                      decoration: BoxDecoration(
+                        color: AppColors.primary,
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                    ),
+                  ),
+                  // 格線（21 個分隔）
+                  ...List.generate(20, (index) {
+                    final position = (index + 1) / 21.0;
+                    return Positioned(
+                      left: position * trackWidth,
+                      child: Container(
+                        width: 1,
+                        height: 8,
+                        color: AppColors.background.withValues(alpha: 0.3),
+                      ),
+                    );
+                  }),
+                ],
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 
