@@ -6,6 +6,7 @@ import '../widgets/bottom_nav_bar.dart';
 import '../services/isar_service.dart';
 import 'goal_detail_screen.dart';
 import 'new_goal_screen.dart';
+import 'onboarding_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -70,9 +71,19 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: BottomNavBar(
         currentIndex: _currentIndex,
         onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
+          if (index == 0) {
+            // Navigate to onboarding screen
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const OnboardingScreen(),
+              ),
+            );
+          } else {
+            setState(() {
+              _currentIndex = index;
+            });
+          }
         },
       ),
     );

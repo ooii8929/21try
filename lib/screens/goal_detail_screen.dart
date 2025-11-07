@@ -8,6 +8,7 @@ import '../services/isar_service.dart';
 import '../services/bear_service.dart';
 import 'record_screen.dart';
 import 'edit_record_review_screen.dart';
+import 'onboarding_screen.dart';
 import '../main.dart'; // 引入全局的 routeObserver
 
 class GoalDetailScreen extends StatefulWidget {
@@ -24,6 +25,7 @@ class _GoalDetailScreenState extends State<GoalDetailScreen> with RouteAware {
   List<Record> records = [];
   int _currentDistance = 5;
   Timer? _distanceUpdateTimer;
+  String _lastEventType = 'distance'; // 'maintain' or 'distance' or 'decrement'
 
   @override
   void initState() {
@@ -56,8 +58,10 @@ class _GoalDetailScreenState extends State<GoalDetailScreen> with RouteAware {
       
       final newDistance = await BearService.getCurrentDistance(widget.goal.id);
       if (newDistance != _currentDistance) {
+        // 距離減少了，切換到 distance 圖片
         setState(() {
           _currentDistance = newDistance;
+          _lastEventType = 'decrement';
         });
         
         // 如果距離降到 0，顯示警告
@@ -103,6 +107,9 @@ class _GoalDetailScreenState extends State<GoalDetailScreen> with RouteAware {
       
       setState(() {
         _currentDistance = distance;
+        if (event != null) {
+          _lastEventType = event.eventType;
+        }
       });
       
       // Show modal if there's an event
@@ -148,9 +155,19 @@ class _GoalDetailScreenState extends State<GoalDetailScreen> with RouteAware {
       bottomNavigationBar: BottomNavBar(
         currentIndex: _currentIndex,
         onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
+          if (index == 0) {
+            // Navigate to onboarding screen
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const OnboardingScreen(),
+              ),
+            );
+          } else {
+            setState(() {
+              _currentIndex = index;
+            });
+          }
         },
       ),
     );
@@ -202,6 +219,10 @@ class _GoalDetailScreenState extends State<GoalDetailScreen> with RouteAware {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Bear status image
+          _buildBearStatusImage(),
+          const SizedBox(height: 16),
+          
           // Bear distance indicator
           _buildBearDistanceCard(),
           const SizedBox(height: 16),
@@ -345,6 +366,34 @@ class _GoalDetailScreenState extends State<GoalDetailScreen> with RouteAware {
           ],
         );
       },
+    );
+  }
+
+  Widget _buildBearStatusImage() {
+    // 根據最後事件類型選擇圖片
+    String imagePath;
+    if (_lastEventType == 'maintain') {
+      // 打卡後顯示 maintain 圖片
+      imagePath = 'assets/bear/maintain/rest.png';
+    } else {
+      // 距離減少或初始狀態，顯示 distance 圖片
+      imagePath = 'assets/bear/distance/d$_currentDistance/2-run.png';
+    }
+
+    return Container(
+      width: double.infinity,
+      height: 200,
+      decoration: BoxDecoration(
+        color: AppColors.cardBackground,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(12),
+        child: Image.asset(
+          imagePath,
+          fit: BoxFit.cover,
+        ),
+      ),
     );
   }
 
@@ -703,6 +752,7 @@ class _GoalDetailScreenState extends State<GoalDetailScreen> with RouteAware {
       
       setState(() {
         _currentDistance = distance;
+        _lastEventType = 'maintain'; // 打卡後設為 maintain
       });
       
       // 顯示熊的事件 modal

@@ -135,66 +135,15 @@ class BearService {
 
   // Select random image from gallery
   static String? _selectRandomImage(String type, {int? distance}) {
-    final random = Random();
-    List<String> images = [];
-    
     if (type == 'maintain') {
-      // Maintain images
-      images = [
-        'assets/bear/maintain/maintain_001.png',
-        'assets/bear/maintain/maintain_002.png',
-        'assets/bear/maintain/maintain_003.png',
-      ];
+      // Maintain image
+      return 'assets/bear/maintain/rest.png';
     } else if (type == 'distance' && distance != null) {
-      // Distance-specific images
-      switch (distance) {
-        case 5:
-          images = ['assets/bear/distance/d5/d5_001.png'];
-          break;
-        case 4:
-          images = [
-            'assets/bear/distance/d4/d4_001.png',
-            'assets/bear/distance/d4/d4_002.png',
-          ];
-          break;
-        case 3:
-          images = [
-            'assets/bear/distance/d3/d3_001.png',
-            'assets/bear/distance/d3/d3_002.png',
-          ];
-          break;
-        case 2:
-          images = [
-            'assets/bear/distance/d2/d2_001.png',
-            'assets/bear/distance/d2/d2_002.png',
-          ];
-          break;
-        case 1:
-          images = [
-            'assets/bear/distance/d1/d1_001.png',
-            'assets/bear/distance/d1/d1_002.png',
-          ];
-          break;
-        case 0:
-          images = [
-            'assets/bear/distance/d0/d0_001.png',
-            'assets/bear/distance/d0/d0_002.png',
-          ];
-          break;
-      }
+      // Distance-specific image
+      return 'assets/bear/distance/d$distance/2-run.png';
     }
     
-    if (images.isEmpty) return null;
-    
-    // Avoid repeating same image if possible
-    if (images.length > 1 && _lastShownImage != null) {
-      images.removeWhere((img) => img == _lastShownImage);
-    }
-    
-    final selectedImage = images[random.nextInt(images.length)];
-    _lastShownImage = selectedImage;
-    
-    return selectedImage;
+    return null;
   }
 
   // Helper: Get date only (truncate time)

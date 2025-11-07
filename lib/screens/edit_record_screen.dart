@@ -6,6 +6,7 @@ import 'package:video_player/video_player.dart';
 import 'package:chewie/chewie.dart';
 import '../models/isar_models.dart';
 import '../services/isar_service.dart';
+import '../services/bear_service.dart';
 
 class EditRecordScreen extends StatefulWidget {
   final String? mediaPath;
@@ -551,6 +552,10 @@ class _EditRecordScreenState extends State<EditRecordScreen> {
 
                     await IsarService.saveRecordWithGoal(record, widget.goalId);
                     debugPrint('Record saved successfully');
+                    
+                    // Trigger bear check-in
+                    await BearService.doCheckin(widget.goalId);
+                    debugPrint('Bear check-in completed');
                   } catch (e) {
                     debugPrint('Error saving record: $e');
                   }
