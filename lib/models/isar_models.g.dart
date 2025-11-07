@@ -22,13 +22,23 @@ const GoalSchema = CollectionSchema(
       name: r'createdAt',
       type: IsarType.dateTime,
     ),
-    r'title': PropertySchema(
+    r'lastBearCheckin': PropertySchema(
       id: 1,
+      name: r'lastBearCheckin',
+      type: IsarType.dateTime,
+    ),
+    r'lastBearDistance': PropertySchema(
+      id: 2,
+      name: r'lastBearDistance',
+      type: IsarType.long,
+    ),
+    r'title': PropertySchema(
+      id: 3,
       name: r'title',
       type: IsarType.string,
     ),
     r'uuid': PropertySchema(
-      id: 2,
+      id: 4,
       name: r'uuid',
       type: IsarType.string,
     )
@@ -72,8 +82,10 @@ void _goalSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeDateTime(offsets[0], object.createdAt);
-  writer.writeString(offsets[1], object.title);
-  writer.writeString(offsets[2], object.uuid);
+  writer.writeDateTime(offsets[1], object.lastBearCheckin);
+  writer.writeLong(offsets[2], object.lastBearDistance);
+  writer.writeString(offsets[3], object.title);
+  writer.writeString(offsets[4], object.uuid);
 }
 
 Goal _goalDeserialize(
@@ -85,8 +97,10 @@ Goal _goalDeserialize(
   final object = Goal();
   object.createdAt = reader.readDateTime(offsets[0]);
   object.id = id;
-  object.title = reader.readString(offsets[1]);
-  object.uuid = reader.readString(offsets[2]);
+  object.lastBearCheckin = reader.readDateTimeOrNull(offsets[1]);
+  object.lastBearDistance = reader.readLong(offsets[2]);
+  object.title = reader.readString(offsets[3]);
+  object.uuid = reader.readString(offsets[4]);
   return object;
 }
 
@@ -100,8 +114,12 @@ P _goalDeserializeProp<P>(
     case 0:
       return (reader.readDateTime(offset)) as P;
     case 1:
-      return (reader.readString(offset)) as P;
+      return (reader.readDateTimeOrNull(offset)) as P;
     case 2:
+      return (reader.readLong(offset)) as P;
+    case 3:
+      return (reader.readString(offset)) as P;
+    case 4:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -294,6 +312,128 @@ extension GoalQueryFilter on QueryBuilder<Goal, Goal, QFilterCondition> {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
         property: r'id',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<Goal, Goal, QAfterFilterCondition> lastBearCheckinIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'lastBearCheckin',
+      ));
+    });
+  }
+
+  QueryBuilder<Goal, Goal, QAfterFilterCondition> lastBearCheckinIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'lastBearCheckin',
+      ));
+    });
+  }
+
+  QueryBuilder<Goal, Goal, QAfterFilterCondition> lastBearCheckinEqualTo(
+      DateTime? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'lastBearCheckin',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Goal, Goal, QAfterFilterCondition> lastBearCheckinGreaterThan(
+    DateTime? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'lastBearCheckin',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Goal, Goal, QAfterFilterCondition> lastBearCheckinLessThan(
+    DateTime? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'lastBearCheckin',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Goal, Goal, QAfterFilterCondition> lastBearCheckinBetween(
+    DateTime? lower,
+    DateTime? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'lastBearCheckin',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<Goal, Goal, QAfterFilterCondition> lastBearDistanceEqualTo(
+      int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'lastBearDistance',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Goal, Goal, QAfterFilterCondition> lastBearDistanceGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'lastBearDistance',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Goal, Goal, QAfterFilterCondition> lastBearDistanceLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'lastBearDistance',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Goal, Goal, QAfterFilterCondition> lastBearDistanceBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'lastBearDistance',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -632,6 +772,30 @@ extension GoalQuerySortBy on QueryBuilder<Goal, Goal, QSortBy> {
     });
   }
 
+  QueryBuilder<Goal, Goal, QAfterSortBy> sortByLastBearCheckin() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'lastBearCheckin', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Goal, Goal, QAfterSortBy> sortByLastBearCheckinDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'lastBearCheckin', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Goal, Goal, QAfterSortBy> sortByLastBearDistance() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'lastBearDistance', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Goal, Goal, QAfterSortBy> sortByLastBearDistanceDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'lastBearDistance', Sort.desc);
+    });
+  }
+
   QueryBuilder<Goal, Goal, QAfterSortBy> sortByTitle() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'title', Sort.asc);
@@ -682,6 +846,30 @@ extension GoalQuerySortThenBy on QueryBuilder<Goal, Goal, QSortThenBy> {
     });
   }
 
+  QueryBuilder<Goal, Goal, QAfterSortBy> thenByLastBearCheckin() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'lastBearCheckin', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Goal, Goal, QAfterSortBy> thenByLastBearCheckinDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'lastBearCheckin', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Goal, Goal, QAfterSortBy> thenByLastBearDistance() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'lastBearDistance', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Goal, Goal, QAfterSortBy> thenByLastBearDistanceDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'lastBearDistance', Sort.desc);
+    });
+  }
+
   QueryBuilder<Goal, Goal, QAfterSortBy> thenByTitle() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'title', Sort.asc);
@@ -714,6 +902,18 @@ extension GoalQueryWhereDistinct on QueryBuilder<Goal, Goal, QDistinct> {
     });
   }
 
+  QueryBuilder<Goal, Goal, QDistinct> distinctByLastBearCheckin() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'lastBearCheckin');
+    });
+  }
+
+  QueryBuilder<Goal, Goal, QDistinct> distinctByLastBearDistance() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'lastBearDistance');
+    });
+  }
+
   QueryBuilder<Goal, Goal, QDistinct> distinctByTitle(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -739,6 +939,18 @@ extension GoalQueryProperty on QueryBuilder<Goal, Goal, QQueryProperty> {
   QueryBuilder<Goal, DateTime, QQueryOperations> createdAtProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'createdAt');
+    });
+  }
+
+  QueryBuilder<Goal, DateTime?, QQueryOperations> lastBearCheckinProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'lastBearCheckin');
+    });
+  }
+
+  QueryBuilder<Goal, int, QQueryOperations> lastBearDistanceProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'lastBearDistance');
     });
   }
 

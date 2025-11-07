@@ -9,6 +9,10 @@ class Goal {
   late String title; // 目標名稱
   DateTime createdAt = DateTime.now();
 
+  // Bear Distance 相關欄位
+  DateTime? lastBearCheckin; // 最後一次打卡時間
+  int lastBearDistance = 5; // 最後記錄的距離（預設 5）
+
   // 一個 Goal 底下多個 Record
   final records = IsarLinks<Record>();
 }
